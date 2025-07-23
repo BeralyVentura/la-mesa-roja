@@ -2,8 +2,8 @@ import { Controller, Post, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { FacturaService } from './factura.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-@ApiTags('factura')
-@Controller('factura')
+@ApiTags('Factura')
+@Controller('Factura')
 export class FacturaController {
   constructor(private readonly facturaService: FacturaService) {}
 
