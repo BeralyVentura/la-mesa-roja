@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { OrdenItem } from './orden-item.entity';
+import { EstadoOrden } from 'src/common/enums/estado-orden.enum';
+
 
 @Entity()
 export class Orden {
@@ -36,6 +38,15 @@ export class Orden {
   @Column('simple-array', { nullable: true })
   promocionesAplicadas: string[];
 
+  @Column({
+    type: 'enum',
+    enum: EstadoOrden,
+    default: EstadoOrden.SOLICITADA,
+  })
+  estado: EstadoOrden;
+
   @CreateDateColumn()
   fechaCreacion: Date;
+
+
 }

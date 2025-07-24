@@ -5,6 +5,7 @@ import { Orden } from './orden.entity';
 import { OrdenItem } from './orden-item.entity';
 import { CreateOrdenDto } from './dto/create-orden.dto';
 import { PromocionesService } from 'src/promociones/promociones.service';
+import { EstadoOrden } from 'src/common/enums/estado-orden.enum';
 
 @Injectable()
 export class OrdenesService {
@@ -116,5 +117,20 @@ export class OrdenesService {
 
   findAll() {
     return this.ordenRepo.find();
+  }
+
+  async findByEstado(estado: EstadoOrden) {
+    return this.ordenRepo.find({ where: { estado } });
+  }
+
+  async cambiarEstado(id: number, nuevoEstado: EstadoOrden) {
+    const orden = await this.ordenRepo.findOneBy({ id });
+
+    if (!orden) {
+      throw new Error('Orden no encontrada');
+    }
+
+    orden.estado = nuevoEstado;
+    return this.ordenRepo.save(orden);
   }
 }
