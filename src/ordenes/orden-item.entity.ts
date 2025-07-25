@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Orden } from './orden.entity';
-import { Platillo } from 'src/platillos/platillo.entity'; // Asegúrate de importar esto
+import { Platillo } from 'src/platillos/platillo.entity'; 
 
 @Entity()
 export class OrdenItem {
@@ -25,6 +25,6 @@ export class OrdenItem {
   @ManyToOne(() => Orden, (orden) => orden.items)
   orden: Orden;
 
-  @ManyToOne(() => Platillo, { eager: true }) // eager para que se cargue automáticamente
+  @ManyToOne(() => Platillo, { eager: true }) 
   platillo: Platillo;
 }

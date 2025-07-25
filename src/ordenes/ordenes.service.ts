@@ -6,6 +6,7 @@ import { OrdenItem } from './orden-item.entity';
 import { CreateOrdenDto } from './dto/create-orden.dto';
 import { PromocionesService } from 'src/promociones/promociones.service';
 import { EstadoOrden } from 'src/common/enums/estado-orden.enum';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class OrdenesService {
@@ -15,6 +16,7 @@ export class OrdenesService {
     @InjectRepository(OrdenItem)
     private readonly itemRepo: Repository<OrdenItem>,
     private readonly promocionesService: PromocionesService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async create(dto: CreateOrdenDto) {
@@ -96,7 +98,21 @@ export class OrdenesService {
         items: items.map((i) => this.itemRepo.create(i)),
       });
 
+      // Guardar la orden primero
+      const ordenGuardada = await this.ordenRepo.save(orden);
+
+      // 🔔 NUEVO: Emitir evento para que cocina sea notificada automáticamente
+      this.eventEmitter.emit('orden.creada', {
+        ordenId: ordenGuardada.id,
+        mesa: ordenGuardada.mesa,
+        usuario: ordenGuardada.usuario,
+        items: ordenGuardada.items,
+        total: ordenGuardada.total,
+        timestamp: new Date(),
+      });
+
       console.log('🧾 Orden procesada correctamente:', {
+        id: ordenGuardada.id, // ID incluido
         mesa,
         usuario,
         subtotal,
@@ -105,7 +121,7 @@ export class OrdenesService {
         promocionesAplicadas,
       });
 
-      return await this.ordenRepo.save(orden);
+      return ordenGuardada;
     } catch (error) {
       console.error('❌ Error al crear la orden:', error.message);
       throw new InternalServerErrorException(
@@ -129,7 +145,22 @@ export class OrdenesService {
       throw new Error('Orden no encontrada');
     }
 
+    const estadoAnterior = orden.estado;
     orden.estado = nuevoEstado;
-    return this.ordenRepo.save(orden);
+    
+    // Guardar la orden actualizada
+    const ordenActualizada = await this.ordenRepo.save(orden);
+    
+    // 🔔 NUEVO: Emitir evento cuando cambia el estado de la orden
+    this.eventEmitter.emit('orden.estado.actualizado', {
+      ordenId: orden.id,
+      estadoAnterior,
+      estadoNuevo: nuevoEstado,
+      timestamp: new Date(),
+    });
+
+    console.log(`🔄 [ORDENES] Estado actualizado para orden #${orden.id}: ${estadoAnterior} → ${nuevoEstado}`);
+    
+    return ordenActualizada;
   }
 }
