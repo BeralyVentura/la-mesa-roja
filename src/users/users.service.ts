@@ -26,7 +26,7 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Email is already registered');
+      throw new ConflictException('El email ya está registrado');
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -38,12 +38,16 @@ export class UsersService {
       role,
     });
 
-    return await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save(user);
+
+    const { password: _, ...userWithoutPassword } = savedUser;
+    return userWithoutPassword as User;
   }
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find({
       select: ['id', 'email', 'name', 'role', 'isActive', 'createdAt'],
+      order: { createdAt: 'DESC' },
     });
   }
 
@@ -54,7 +58,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado');
     }
 
     return user;
@@ -72,6 +76,14 @@ export class UsersService {
     });
   }
 
+  async findByRole(role: UserRole): Promise<User[]> {
+    return await this.userRepository.find({
+      where: { role, isActive: true },
+      select: ['id', 'email', 'name', 'role', 'isActive', 'createdAt'],
+      order: { name: 'ASC' },
+    });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
 
@@ -84,7 +96,7 @@ export class UsersService {
         where: { email: updateUserDto.email },
       });
       if (existingEmail) {
-        throw new ConflictException('Email is already in use');
+        throw new ConflictException('El email ya está en uso');
       }
     }
 
@@ -115,7 +127,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found or inactive');
+      throw new NotFoundException('Usuario no encontrado o inactivo');
     }
 
     return user;

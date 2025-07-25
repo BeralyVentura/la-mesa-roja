@@ -252,6 +252,44 @@ export class CocinaService {
     });
   }
 
+  async calcularTiemposDeAtencion() {
+    const historiales = await this.historialRepo.find({
+      relations: ['notificacion', 'notificacion.orden'],
+      order: { fechaCambio: 'ASC' }
+    });
+
+    const tiemposPorOrden = {};
+
+    for (const h of historiales) {
+      const idOrden = h.notificacion.orden.id;
+
+      if (!tiemposPorOrden[idOrden]) {
+        tiemposPorOrden[idOrden] = { inicio: null, fin: null };
+      }
+
+      if (h.estadoNuevo === EstadoCocina.EN_PREPARACION && !tiemposPorOrden[idOrden].inicio) {
+        tiemposPorOrden[idOrden].inicio = h.fechaCambio;
+      } else if (h.estadoNuevo === EstadoCocina.LISTA_PARA_SERVIR) {
+        tiemposPorOrden[idOrden].fin = h.fechaCambio;
+      }
+    }
+
+      const resultados: { ordenId: number; duracionMin: number }[] = [];
+
+      for (const [id, tiempo] of Object.entries(tiemposPorOrden) as [string, { inicio: Date, fin: Date }][]) {
+        if (tiempo.inicio && tiempo.fin) {
+          const duracionMs = new Date(tiempo.fin).getTime() - new Date(tiempo.inicio).getTime();
+          resultados.push({
+            ordenId: Number(id),
+            duracionMin: Math.round(duracionMs / 60000),
+          });
+        }
+      }
+
+
+    return resultados;
+  }
+
   private calcularTiempoEstimado(orden: Orden): number {
     const tiempoBase = 5;
     const tiempoPorItem = 3;

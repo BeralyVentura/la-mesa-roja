@@ -244,4 +244,12 @@ export class CocinaController {
       actualizaciones,
     };
   }
+
+  @Get('reportes/tiempos')
+  @Roles(UserRole.ADMIN)
+  @ApiTags('Cocina')
+  @ApiOperation({ summary: 'Reporte de tiempos de atención por orden' })
+  async obtenerTiempos() {
+    return this.cocinaService.calcularTiemposDeAtencion();
+  }
 }
