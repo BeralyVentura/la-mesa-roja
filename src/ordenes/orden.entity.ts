@@ -8,7 +8,6 @@ import {
 import { OrdenItem } from './orden-item.entity';
 import { EstadoOrden } from 'src/common/enums/estado-orden.enum';
 
-
 @Entity()
 export class Orden {
   @PrimaryGeneratedColumn()
@@ -20,7 +19,7 @@ export class Orden {
   @Column()
   usuario: string;
 
-  @OneToMany(() => OrdenItem, item => item.orden, {
+  @OneToMany(() => OrdenItem, (item) => item.orden, {
     cascade: true,
     eager: true,
   })
@@ -47,6 +46,4 @@ export class Orden {
 
   @CreateDateColumn()
   fechaCreacion: Date;
-
-
 }

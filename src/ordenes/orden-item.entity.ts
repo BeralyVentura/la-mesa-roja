@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Orden } from './orden.entity';
 import { Platillo } from 'src/platillos/platillo.entity'; 
 
-
 @Entity()
 export class OrdenItem {
   @PrimaryGeneratedColumn()
@@ -23,7 +22,7 @@ export class OrdenItem {
   @Column()
   cantidad: number;
 
-  @ManyToOne(() => Orden, orden => orden.items)
+  @ManyToOne(() => Orden, (orden) => orden.items)
   orden: Orden;
 
   @ManyToOne(() => Platillo, { eager: true }) 

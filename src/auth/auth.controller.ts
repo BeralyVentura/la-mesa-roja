@@ -19,6 +19,8 @@ import { AuthenticatedRequest } from './interfaces/authenticated-request.interfa
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
@@ -33,19 +35,5 @@ export class AuthController {
   @Get('profile')
   getProfile(@Request() req: AuthenticatedRequest): User {
     return req.user;
-  }
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
-  @Get('admin-only')
-  adminOnly() {
-    return { message: 'Only administrators can see this' };
-  }
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.COCINERO, UserRole.ADMIN)
-  @Get('kitchen')
-  kitchen() {
-    return { message: 'Access for cooks and admin' };
   }
 }
