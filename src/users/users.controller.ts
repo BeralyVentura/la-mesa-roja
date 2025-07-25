@@ -44,6 +44,10 @@ export class UsersController {
     status: 200,
     description: 'Lista de usuarios obtenida exitosamente',
   })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de usuarios obtenida exitosamente',
+  })
   findAll() {
     return this.usersService.findAll();
   }
