@@ -8,23 +8,13 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
-import { RolesGuard } from './roles.guard';
-import { Roles } from './roles.decorator';
-import { User, UserRole } from 'src/users/entitites/user.entity';
+import { User } from 'src/users/entitites/user.entity';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-
-  @UseGuards(RolesGuard)
-  @Roles(UserRole.ADMIN)
-  @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
-  }
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
