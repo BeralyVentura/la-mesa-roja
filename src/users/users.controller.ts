@@ -40,7 +40,10 @@ export class UsersController {
   @Get()
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Obtener todos los usuarios' })
-  @ApiResponse({ status: 200, description: 'Lista de usuarios obtenida exitosamente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de usuarios obtenida exitosamente',
+  })
   findAll() {
     return this.usersService.findAll();
   }
@@ -74,7 +77,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'Usuario reactivado exitosamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   reactivate(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.update(id, { isActive: true });
+    return this.usersService.reactivate(id);
   }
 
   @Delete(':id')
