@@ -47,14 +47,13 @@ export class OrdenesService {
       }, 0);
 
       const categorias = [
-        ...new Set(items.map(i => i.categoria).filter(Boolean)),
+        ...new Set(items.map((i) => i.categoria).filter(Boolean)),
       ];
 
-      const promociones =
-        await this.promocionesService.findActivePromotions(
-          usuario,
-          categorias[0], // para simplificar se evalúa por la primera categoría
-        );
+      const promociones = await this.promocionesService.findActivePromotions(
+        usuario,
+        categorias[0], // para simplificar se evalúa por la primera categoría
+      );
 
       let descuentoTotal = 0;
       const promocionesAplicadas: string[] = [];
@@ -71,9 +70,9 @@ export class OrdenesService {
           promo.tipo === 'combo' &&
           Array.isArray(promo.comboRequerido)
         ) {
-          const cumpleCombo = promo.comboRequerido.every(requisito => {
+          const cumpleCombo = promo.comboRequerido.every((requisito) => {
             const totalCategoria = items
-              .filter(i => i.categoria === requisito.categoria)
+              .filter((i) => i.categoria === requisito.categoria)
               .reduce((sum, i) => sum + i.cantidad, 0);
             return totalCategoria >= requisito.cantidad;
           });
@@ -94,7 +93,7 @@ export class OrdenesService {
         descuentoTotal,
         total,
         promocionesAplicadas,
-        items: items.map(i => this.itemRepo.create(i)),
+        items: items.map((i) => this.itemRepo.create(i)),
       });
 
       console.log('🧾 Orden procesada correctamente:', {

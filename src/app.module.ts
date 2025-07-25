@@ -13,6 +13,7 @@ import { Factura } from './factura/factura.entity';
 import { Platillo } from './platillos/platillo.entity';
 import { Promocion } from './promociones/promocion.entity';
 import { Orden } from './ordenes/orden.entity';
+import { OrdenItem } from './ordenes/orden-item.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { Orden } from './ordenes/orden.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Factura, Orden, Platillo, Promocion],
+      entities: [User, Factura, Orden, OrdenItem, Platillo, Promocion],
       synchronize: true,
     }),
     AuthModule,
