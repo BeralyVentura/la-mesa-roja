@@ -24,7 +24,7 @@ export class FacturaService {
       0,
     );
 
-    const descuento = this.calcularDescuento(orden); // opcional
+    const descuento = this.calcularDescuento(orden); 
     const total = subtotal - descuento;
 
     const factura = this.facturaRepo.create({ orden, subtotal, descuento, total });
@@ -32,7 +32,7 @@ export class FacturaService {
   }
 
   calcularDescuento(orden: Orden): number {
-    return 0; // Puedes extenderlo con lógica de promociones
+    return 0; 
   }
 
   listarFacturas(): Promise<Factura[]> {

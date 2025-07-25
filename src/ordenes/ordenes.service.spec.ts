@@ -16,10 +16,6 @@ describe('OrdenesService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  // Prueba #1
-  //Crear una orden válida con items y calcular subtotal
-  // Debería simular una orden con platillos, precios y cantidades válidas
-  // y verificar que el subtotal (precio * cantidad) sea correcto.
 
   it('debería crear una orden con subtotal y total correctos', async () => {
   const dto = {
@@ -44,9 +40,7 @@ describe('OrdenesService', () => {
   expect(result.subtotal).toBe(12);
 });
 
-// PRUEBA 2: Transición válida de estado
-// Debería permitir cambiar el estado de una orden de 'solicitada' a 'en_cocina'
-// y devolver el nuevo estado actualizado correctamente.
+
 it('debería permitir cambiar de solicitada a en_cocina', async () => {
   const orden = { id: 1, estado: 'solicitada' };
 
@@ -61,7 +55,6 @@ it('debería permitir cambiar de solicitada a en_cocina', async () => {
   expect(result.estado).toBe('en_cocina');
 });
 
-//PRUEBA 3
 it('debería rechazar transición inválida de facturada a en_cocina', async () => {
   const orden = { id: 1, estado: 'facturada' };
 

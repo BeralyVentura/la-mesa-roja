@@ -21,10 +21,10 @@ export class Promocion {
   fechaFin: Date;
 
   @Column()
-  horaInicio: string; // Formato 'HH:MM'
+  horaInicio: string; 
 
   @Column()
-  horaFin: string; // Formato 'HH:MM'
+  horaFin: string;
 
   @Column('text', { array: true, nullable: true })
 usuariosAplicables: string[];
