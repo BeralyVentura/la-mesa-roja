@@ -4,21 +4,17 @@ import {
   Column,
   OneToMany,
   CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
 } from 'typeorm';
 import { OrdenItem } from './orden-item.entity';
 import { EstadoOrden } from 'src/common/enums/estado-orden.enum';
-import { Mesa } from 'src/mesa/mesa.entity';
 
 @Entity()
 export class Orden {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Mesa, mesa => mesa.ordenes, { eager: true })
-  @JoinColumn({ name: 'mesaId' })
-  mesa: Mesa;
+  @Column()
+  mesa: number;
 
   @Column()
   usuario: string;
