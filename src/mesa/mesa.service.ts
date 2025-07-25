@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Mesa } from './mesa.entity';
@@ -18,14 +18,18 @@ export class MesaService {
 
   async marcarComoOcupada(id: number): Promise<Mesa> {
     const mesa = await this.mesaRepo.findOneBy({ id });
-    if (!mesa) throw new Error('Mesa no encontrada');
+    if (!mesa) {
+      throw new NotFoundException(`Mesa con ID ${id} no encontrada`);
+    }
     mesa.disponible = false;
     return this.mesaRepo.save(mesa);
   }
 
   async marcarComoDisponible(id: number): Promise<Mesa> {
     const mesa = await this.mesaRepo.findOneBy({ id });
-    if (!mesa) throw new Error('Mesa no encontrada');
+    if (!mesa) {
+      throw new NotFoundException(`Mesa con ID ${id} no encontrada`);
+    }
     mesa.disponible = true;
     return this.mesaRepo.save(mesa);
   }

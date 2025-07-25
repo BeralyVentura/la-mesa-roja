@@ -9,7 +9,7 @@ import { UserRole } from 'src/users/entitites/user.entity';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Factura')
-@Controller('Factura')
+@Controller('facturas')
 export class FacturaController {
   constructor(private readonly facturaService: FacturaService) {}
 

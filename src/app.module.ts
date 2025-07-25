@@ -18,6 +18,8 @@ import { Orden } from './ordenes/orden.entity';
 import { OrdenItem } from './ordenes/orden-item.entity';
 import { NotificacionCocina } from './cocina/entities/notificacion-cocina.entity'; 
 import { HistorialEstado } from './cocina/entities/historial-estado.entity'; 
+import { Mesa } from './mesa/mesa.entity';
+import { MesaModule } from './mesa/mesa.module';
 
 @Module({
   imports: [
@@ -36,7 +38,8 @@ import { HistorialEstado } from './cocina/entities/historial-estado.entity';
         Promocion, 
         OrdenItem,
         NotificacionCocina,  
-        HistorialEstado,     
+        HistorialEstado,   
+        Mesa  
       ],
       synchronize: true, 
       logging: false, 
@@ -59,6 +62,7 @@ import { HistorialEstado } from './cocina/entities/historial-estado.entity';
     OrdenesModule,
     FacturaModule,
     CocinaModule,  
+    MesaModule
   ],
   controllers: [AppController],
   providers: [AppService],
