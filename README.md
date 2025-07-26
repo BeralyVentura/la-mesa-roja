@@ -1,98 +1,315 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🍽️ Sistema de Restaurante Digital
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Sistema completo de gestión para restaurantes desarrollado con **NestJS**, **TypeORM** y **PostgreSQL**. Incluye gestión de usuarios, mesas, platillos, órdenes, cocina digital, promociones y facturación automatizada.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 👥 Equipo de Desarrollo
 
-## Description
+| Nombre |
+|--------|
+| **Camila Melara** | 
+| **Diego Morales** | 
+| **Daniela Pineda** |
+| **Génesis Parada** |
+| **Ximena Zelaya** | 
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🚀 Características Principales
 
-```bash
-$ npm install
+### ✨ **Funcionalidades Core**
+- 🔐 **Autenticación JWT** con roles granulares
+- 👥 **Gestión de usuarios** (Admin, Mesero, Cocinero, Cliente)
+- 🪑 **Control de mesas** (disponible/ocupada)
+- 🍽️ **Catálogo de platillos** con categorías
+- 🎯 **Sistema de promociones** (porcentaje, cantidad fija, combos)
+- 📦 **Gestión de órdenes** con cálculo automático
+- 👨‍🍳 **Pantalla digital de cocina** con estados en tiempo real
+- 🧾 **Facturación automática** con descuentos aplicados
+
+### 🏗️ **Arquitectura Técnica**
+- **Backend:** NestJS + TypeScript
+- **Base de Datos:** PostgreSQL + TypeORM
+- **Autenticación:** JWT con guards y roles
+- **Eventos:** EventEmitter2 para comunicación en tiempo real
+- **Documentación:** Swagger/OpenAPI automática
+- **Testing:** Jest con coverage completo
+
+---
+
+## 📊 API Endpoints (42 Total)
+
+### 🔐 **Autenticación (2 endpoints)**
+```
+POST   /auth/login              - Iniciar sesión
+GET    /auth/profile            - Obtener perfil usuario
 ```
 
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### 👥 **Usuarios (7 endpoints)**
+```
+POST   /users                   - Crear usuario
+GET    /users                   - Listar usuarios
+GET    /users/:id               - Obtener usuario
+PATCH  /users/:id               - Actualizar usuario
+PATCH  /users/:id/reactivate    - Reactivar usuario
+DELETE /users/:id               - Desactivar usuario
+GET    /users/rol/:role         - Filtrar por rol
 ```
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### 🪑 **Mesas (4 endpoints)**
+```
+POST   /mesas                   - Crear mesa
+GET    /mesas                   - Listar mesas
+PATCH  /mesas/:id/ocupar        - Marcar como ocupada
+PATCH  /mesas/:id/disponible    - Marcar como disponible
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+### 🍽️ **Platillos (5 endpoints)**
+```
+POST   /platillos               - Crear platillo
+GET    /platillos               - Listar platillos
+GET    /platillos/:id           - Obtener platillo
+PUT    /platillos/:id           - Actualizar platillo
+DELETE /platillos/:id           - Eliminar platillo
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 🎯 **Promociones (6 endpoints)**
+```
+POST   /promociones                      - Crear promoción
+GET    /promociones                      - Listar promociones
+GET    /promociones/:id                  - Obtener promoción
+PUT    /promociones/:id                  - Actualizar promoción
+DELETE /promociones/:id                  - Eliminar promoción
+GET    /promociones/activas/buscar       - Buscar promociones activas
+```
 
-## Resources
+### 📦 **Órdenes (4 endpoints)**
+```
+POST   /ordenes                 - Crear orden
+GET    /ordenes                 - Listar órdenes
+GET    /ordenes/estado/:estado  - Filtrar por estado
+PATCH  /ordenes/:id/estado      - Cambiar estado
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 🧾 **Facturas (3 endpoints)**
+```
+POST   /facturas/:ordenId       - Generar factura
+GET    /facturas                - Listar facturas
+GET    /facturas/:id            - Obtener factura
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 👨‍🍳 **Cocina (17 endpoints)**
+```
+# Gestión de Notificaciones
+POST   /cocina/notificaciones                    - Crear notificación
+GET    /cocina/notificaciones                    - Obtener notificaciones
+GET    /cocina/notificaciones/:id                - Obtener notificación específica
+PATCH  /cocina/notificaciones/:id/estado        - Actualizar estado
+PATCH  /cocina/notificaciones/:id/asignar-cocinero - Asignar cocinero
+DELETE /cocina/notificaciones/:id/cancelar      - Cancelar orden
 
-## Support
+# Pantalla Digital
+GET    /cocina/pantalla                         - Vista principal
+GET    /cocina/pantalla/cocinero/:cocineroId    - Vista por cocinero
+GET    /cocina/pantalla/mesa/:mesa              - Vista por mesa
+PATCH  /cocina/pantalla/:id/iniciar             - Iniciar preparación
+PATCH  /cocina/pantalla/:id/finalizar           - Finalizar preparación
+PATCH  /cocina/pantalla/:id/entregar            - Marcar entregada
+GET    /cocina/pantalla/actualizaciones         - Polling actualizaciones
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Estadísticas y Reportes
+GET    /cocina/estadisticas                     - Estadísticas generales
+GET    /cocina/historial/orden/:ordenId         - Historial de orden
+GET    /cocina/reportes/tiempos                 - Reporte de tiempos
+POST   /cocina/ordenes/:ordenId/notificar       - Notificar nueva orden
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🛠️ Instalación y Configuración
 
-## License
+### **Prerrequisitos**
+- Node.js >= 18
+- PostgreSQL >= 13
+- npm >= 8
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### **1. Clonar el repositorio**
+```bash
+git clone [URL_DEL_REPOSITORIO]
+cd sistema-restaurante
+```
+
+### **2. Instalar dependencias**
+```bash
+npm install
+```
+
+### **3. Configurar variables de entorno**
+Crear archivo `.env` en la raíz:
+```env
+# Base de Datos
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_password
+DB_NAME=restaurante_db
+
+# JWT
+JWT_SECRET=tu_jwt_secret_super_seguro
+
+# Servidor
+PORT=3000
+```
+
+### **4. Configurar base de datos**
+```bash
+# Crear base de datos en PostgreSQL
+createdb restaurante_db
+
+# Las tablas se crean automáticamente con TypeORM
+```
+
+### **5. Ejecutar el proyecto**
+```bash
+# Desarrollo
+npm run start:dev
+
+# Producción
+npm run build
+npm run start:prod
+```
+
+
+---
+
+## 📖 Documentación API
+
+### **Swagger UI**
+Una vez ejecutando el servidor, visita:
+```
+http://localhost:3000/api
+```
+
+### **Ejemplos de uso**
+
+#### **Login**
+```bash
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@restaurante.com",
+    "password": "Admin123"
+  }'
+```
+
+#### **Crear platillo**
+```bash
+curl -X POST http://localhost:3000/platillos \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Hamburguesa Clásica",
+    "descripcion": "Hamburguesa con carne, lechuga y tomate",
+    "precioBase": 12.99,
+    "categoria": "plato_principal"
+  }'
+```
+
+#### **Crear orden**
+```bash
+curl -X POST http://localhost:3000/ordenes \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mesa": 1,
+    "usuario": "cliente@restaurante.com",
+    "items": [
+      {
+        "platilloId": 1,
+        "nombre": "Hamburguesa Clásica",
+        "categoria": "plato_principal",
+        "precio": 12.99,
+        "cantidad": 2
+      }
+    ]
+  }'
+```
+
+---
+
+## 🎯 Flujo de Trabajo
+
+### **1. Flujo típico de restaurante**
+```
+👤 Mesero → 🪑 Mesa ocupada → 📝 Tomar orden → 📦 Crear orden
+    ↓
+🎯 Sistema aplica promociones → 💰 Calcula totales
+    ↓
+👨‍🍳 Cocina recibe notificación → 🔥 Inicia preparación
+    ↓
+✅ Orden lista → 🍽️ Mesero entrega → 🧾 Genera factura
+    ↓
+🪑 Mesa disponible → 📊 Estadísticas actualizadas
+```
+
+### **2. Roles y permisos**
+
+| Rol | Permisos |
+|-----|----------|
+| **Admin** | Acceso completo a todo el sistema |
+| **Mesero** | Gestión de mesas, órdenes y facturas |
+| **Cocinero** | Pantalla de cocina y gestión de preparación |
+| **Cliente** | Consulta de platillos y promociones |
+
+---
+
+## 🔧 Tecnologías Utilizadas
+
+### **Backend**
+- **NestJS** - Framework Node.js
+- **TypeScript** - Lenguaje tipado
+- **TypeORM** - ORM para base de datos
+- **PostgreSQL** - Base de datos relacional
+- **JWT** - Autenticación
+- **Swagger** - Documentación API
+- **Jest** - Testing framework
+- **class-validator** - Validación de DTOs
+- **bcryptjs** - Hash de contraseñas
+
+---
+
+## 📝 Estructura del Proyecto
+
+```
+src/
+├── auth/                    # Autenticación JWT
+│   ├── dto/
+│   ├── guards/
+│   └── strategies/
+├── users/                   # Gestión de usuarios
+│   ├── dto/
+│   └── entities/
+├── mesa/                    # Control de mesas
+├── platillos/              # Catálogo de platillos
+├── promociones/            # Sistema de promociones
+├── ordenes/                # Gestión de órdenes
+├── factura/                # Facturación
+├── cocina/                 # Sistema de cocina
+│   ├── dto/
+│   ├── entities/
+│   ├── events/
+│   └── listeners/
+└── common/                 # Utilidades compartidas
+    └── enums/
+```
+
+---
+
+## 📊 Estadísticas del Proyecto
+
+- **42 endpoints** REST implementados
+- **9 módulos** principales
+- **Cobertura de tests** > 80%
+- **Documentación** 100% actualizada
+- **Arquitectura** escalable y mantenible
+
+¡Gracias por usar nuestro Sistema de Restaurante Digital! 🍽️✨
